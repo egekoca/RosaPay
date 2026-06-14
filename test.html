@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rosa Pay V2 Mock UI</title>
+  <style>
+    :root {
+      --black: #050505;
+      --dark: #0b0d0f;
+      --dark-2: #111111;
+      --graphite: #1C1C1E;
+      --card: #17181b;
+      --card-2: #202124;
+      --border: #343434;
+      --gold: #D4AF37;
+      --gold-2: #F1D27A;
+      --text: #F5F5F5;
+      --muted: #A1A1AA;
+      --danger: #ff5b5b;
+      --success: #4ade80;
+      --warning: #facc15;
+      --shadow: rgba(212, 175, 55, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(212, 175, 55, 0.15), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(241, 210, 122, 0.08), transparent 26%),
+        linear-gradient(135deg, #030303 0%, #090a0c 45%, #111111 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      background: rgba(5, 5, 5, 0.82);
+      backdrop-filter: blur(18px);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 8px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 30%, #fff4b8 0%, var(--gold-2) 15%, var(--gold) 42%, #7b5b13 80%);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
+      display: grid;
+      place-items: center;
+      color: #0a0a0a;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .brand h1 {
+      font-size: 21px;
+      margin: 0;
+      letter-spacing: 0.2px;
+      color: var(--gold-2);
+      font-family: Georgia, serif;
+    }
+
+    .brand p {
+      margin: 1px 0 0;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .nav-group-label {
+      margin: 3px 10px;
+      font-size: 11px;
+      color: #74747d;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      font-weight: 800;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nav button {
+      border: 1px solid transparent;
+      color: var(--muted);
+      background: transparent;
+      padding: 12px 12px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: 0.18s ease;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .nav button:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+
+    .nav button.active {
+      color: #111;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.18);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3a2b0a, var(--gold));
+      display: grid;
+      place-items: center;
+      color: #111;
+      font-weight: 900;
+    }
+
+    .main {
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .page-title h2 {
+      margin: 0;
+      font-size: 27px;
+      letter-spacing: -0.8px;
+    }
+
+    .page-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill {
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.12);
+    }
+
+    .btn {
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      padding: 12px 16px;
+      border-radius: 13px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(212, 175, 55, 0.55);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+      color: #090909;
+      border-color: transparent;
+      box-shadow: 0 12px 30px rgba(212, 175, 55, 0.16);
+    }
+
+    .btn-danger {
+      color: #fff;
+      background: rgba(255, 91, 91, 0.12);
+      border-color: rgba(255, 91, 91, 0.3);
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .two-col {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .three-col {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025));
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.22);
+      backdrop-filter: blur(16px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .stat .value {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .stat .sub {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .spark {
+      height: 38px;
+      margin-top: 10px;
+      background:
+        linear-gradient(135deg, transparent 0 35%, rgba(212,175,55,0.14) 36% 45%, transparent 46% 100%),
+        linear-gradient(90deg, rgba(212,175,55,0.2), rgba(212,175,55,0.02));
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .spark::after {
+      content: "";
+      position: absolute;
+      inset: 16px 10px 9px;
+      background: linear-gradient(135deg, transparent 0 12%, var(--gold) 13% 15%, transparent 16% 24%, var(--gold) 25% 27%, transparent 28% 43%, var(--gold) 44% 47%, transparent 48% 58%, var(--gold) 59% 62%, transparent 63%);
+      opacity: 0.85;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      color: #777780;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      text-align: left;
+      padding: 12px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    td {
+      padding: 14px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+      color: #e7e7e7;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .badge-paid {
+      background: rgba(74, 222, 128, 0.14);
+      color: #8ef0ad;
+    }
+
+    .badge-pending {
+      background: rgba(212, 175, 55, 0.16);
+      color: var(--gold-2);
+    }
+
+    .badge-expired, .badge-failed {
+      background: rgba(255, 91, 91, 0.14);
+      color: #ff9b9b;
+    }
+
+    .form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    label {
+      color: #cfcfcf;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.26);
+      color: var(--text);
+      border-radius: 13px;
+      padding: 13px 14px;
+      outline: none;
+      transition: 0.18s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(212,175,55,0.65);
+      box-shadow: 0 0 0 4px rgba(212,175,55,0.08);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .screen {
+      display: none;
+      animation: fade 0.18s ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .qr-box {
+      background: #f7f7f7;
+      color: #111;
+      border-radius: 20px;
+      width: min(270px, 100%);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      padding: 18px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.28);
+    }
+
+    .qr-grid {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(13, 1fr);
+      grid-template-rows: repeat(13, 1fr);
+      gap: 3px;
+    }
+
+    .qr-cell {
+      background: #111;
+      border-radius: 1px;
+      opacity: 0;
+    }
+
+    .qr-cell.on {
+      opacity: 1;
+    }
+
+    .qr-logo {
+      position: absolute;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+      color: #111;
+      font-weight: 900;
+      box-shadow: 0 0 0 8px #f7f7f7;
+    }
+
+    .detail-list {
+      display: grid;
+      gap: 0;
+      margin-top: 18px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .detail-row strong {
+      color: var(--text);
+      text-align: right;
+    }
+
+    .phone-area {
+      min-height: calc(100vh - 48px);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .phone {
+      width: 390px;
+      max-width: 100%;
+      min-height: 760px;
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 42px;
+      padding: 14px;
+      background: #070809;
+      box-shadow: 0 30px 100px rgba(0,0,0,0.45), 0 0 60px rgba(212,175,55,0.08);
+      position: relative;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 28px;
+      border-radius: 999px;
+      background: #020202;
+      z-index: 2;
+    }
+
+    .phone-screen {
+      min-height: 730px;
+      border-radius: 32px;
+      padding: 42px 18px 20px;
+      background:
+        radial-gradient(circle at 80% 5%, rgba(212,175,55,0.12), transparent 30%),
+        linear-gradient(180deg, #0b0d0f, #050505);
+      overflow: hidden;
+    }
+
+    .mobile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .checkout-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+    }
+
+    .checkout-brand .brand-mark {
+      width: 34px;
+      height: 34px;
+      font-size: 13px;
+    }
+
+    .checkout-brand h2 {
+      margin: 0;
+      color: var(--gold-2);
+      font-family: Georgia, serif;
+    }
+
+    .amount-card {
+      border: 1px solid rgba(212,175,55,0.28);
+      background: linear-gradient(135deg, rgba(212,175,55,0.16), rgba(255,255,255,0.035));
+      border-radius: 22px;
+      padding: 20px;
+      margin: 14px 0;
+    }
+
+    .big-amount {
+      font-size: 38px;
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: -1.2px;
+    }
+
+    .wallet-option {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      border-radius: 18px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .wallet-option:hover {
+      border-color: rgba(212,175,55,0.48);
+      transform: translateY(-1px);
+    }
+
+    .wallet-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wallet-icon {
+      width: 39px;
+      height: 39px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #111;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+    }
+
+    .success-check {
+      width: 94px;
+      height: 94px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 42px auto 25px;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.28);
+      font-size: 52px;
+      color: var(--success);
+    }
+
+    .mobile-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mobile-actions .btn {
+      width: 100%;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 10px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .tab.active {
+      background: rgba(212,175,55,0.14);
+      color: var(--gold-2);
+      border-color: rgba(212,175,55,0.35);
+    }
+
+    .mock-note {
+      border: 1px solid rgba(212,175,55,0.24);
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(212,175,55,0.06);
+      color: #dfd7bd;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .mobile-only-nav {
+      display: none;
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(5,5,5,0.88);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+    }
+
+    .mobile-select {
+      width: 100%;
+    }
+
+    .empty {
+      border: 1px dashed rgba(255,255,255,0.15);
+      border-radius: 18px;
+      padding: 22px;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255,255,255,0.02);
+    }
+
+    @media (max-width: 1180px) {
+      .stats-grid, .three-col {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        display: block;
+      }
+      .sidebar {
+        display: none;
+      }
+      .mobile-only-nav {
+        display: block;
+      }
+      .main {
+        padding: 16px;
+      }
+      .topbar {
+        align-items: start;
+        flex-direction: column;
+      }
+      .stats-grid, .three-col {
+        grid-template-columns: 1fr;
+      }
+      table {
+        min-width: 680px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-only-nav">
+    <select class="mobile-select" id="mobileScreenSelect"></select>
+  </div>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">R</div>
+        <div>
+          <h1>Rosa Pay</h1>
+          <p>Non-Custodial QR Payments on Stellar</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="nav-group-label">Merchant</div>
+        <nav class="nav" id="merchantNav"></nav>
+      </div>
+
+      <div>
+        <div class="nav-group-label">Customer</div>
+        <nav class="nav" id="customerNav"></nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="profile">
+          <div class="avatar">E</div>
+          <div>
+            <strong>Ege</strong>
+            <div style="font-size:12px;color:var(--muted)">Merchant • GABC...XY123</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="mock-note">
+        Bu dosya Rosa Pay V2 için mock data ile çalışan tek sayfalık HTML preview’dır. Sol menüden merchant ve customer ekranlarının tamamını test edebilirsin. Gerçek backend/blockchain bağlantısı yoktur.
+      </div>
+
+      <section class="screen active" id="overview"></section>
+      <section class="screen" id="businesses"></section>
+      <section class="screen" id="branches"></section>
+      <section class="screen" id="payments"></section>
+      <section class="screen" id="create-payment"></section>
+      <section class="screen" id="payment-detail"></section>
+      <section class="screen" id="transactions"></section>
+      <section class="screen" id="customers"></section>
+      <section class="screen" id="security"></section>
+      <section class="screen" id="settings"></section>
+      <section class="screen" id="customer-qr"></section>
+      <section class="screen" id="customer-checkout"></section>
+      <section class="screen" id="customer-wallet"></section>
+      <section class="screen" id="customer-review"></section>
+      <section class="screen" id="customer-success"></section>
+    </main>
+  </div>
+
+  <script>
+    const mock = {
+      merchant: {
+        name: "Ege",
+        wallet: "GABC...XY123",
+        network: "Stellar Testnet"
+      },
+      businesses: [
+        { id: "bus_01", name: "Rosa Cafe", slug: "rosa-cafe", branches: 2, status: "Active", received: "940.25 XLM" },
+        { id: "bus_02", name: "Golden Studio", slug: "golden-studio", branches: 1, status: "Active", received: "300.00 XLM" },
+        { id: "bus_03", name: "Norm Pop-up Store", slug: "norm-popup", branches: 3, status: "Draft", received: "0.00 XLM" }
+      ],
+      branches: [
+        { id: "br_01", business: "Rosa Cafe", name: "Alsancak Branch", wallet: "GABC...XY123", payments: 19, status: "Active" },
+        { id: "br_02", business: "Rosa Cafe", name: "Bostanlı Branch", wallet: "GDEF...LQ987", payments: 8, status: "Active" },
+        { id: "br_03", business: "Golden Studio", name: "Online Checkout", wallet: "GHIJ...MN456", payments: 5, status: "Active" }
+      ],
+      payments: [
+        { id: "pay_7f9s2k", business: "Rosa Cafe", branch: "Alsancak Branch", amount: "10.00", asset: "XLM", status: "PENDING", created: "2m ago", memo: "pay_7f9s2k" },
+        { id: "pay_3h6d1a", business: "Rosa Cafe", branch: "Alsancak Branch", amount: "25.00", asset: "XLM", status: "PAID", created: "15m ago", memo: "pay_3h6d1a" },
+        { id: "pay_9g2b7c", business: "Golden Studio", branch: "Online Checkout", amount: "8.50", asset: "XLM", status: "PAID", created: "1h ago", memo: "pay_9g2b7c" },
+        { id: "pay_1a2b3c", business: "Rosa Cafe", branch: "Bostanlı Branch", amount: "15.00", asset: "XLM", status: "EXPIRED", created: "2h ago", memo: "pay_1a2b3c" },
+        { id: "pay_8d7f6e", business: "Rosa Cafe", branch: "Alsancak Branch", amount: "30.00", asset: "XLM", status: "PAID", created: "3h ago", memo: "pay_8d7f6e" }
+      ],
+      transactions: [
+        { hash: "0f9a...f3a", payment: "pay_3h6d1a", customer: "GQWE...K92A", amount: "25.00 XLM", status: "CONFIRMED", time: "15m ago" },
+        { hash: "7b8c...1d2", payment: "pay_9g2b7c", customer: "GRTY...L81C", amount: "8.50 XLM", status: "CONFIRMED", time: "1h ago" },
+        { hash: "32af...9ab", payment: "pay_1a2b3c", customer: "GJKL...P44D", amount: "15.00 XLM", status: "FAILED", time: "2h ago" },
+        { hash: "11cd...7ee", payment: "pay_8d7f6e", customer: "GZXC...N77B", amount: "30.00 XLM", status: "CONFIRMED", time: "3h ago" }
+      ],
+      customers: [
+        { wallet: "GQWE...K92A", payments: 3, volume: "48.00 XLM", firstSeen: "Today" },
+        { wallet: "GRTY...L81C", payments: 1, volume: "8.50 XLM", firstSeen: "Today" },
+        { wallet: "GZXC...N77B", payments: 4, volume: "92.00 XLM", firstSeen: "Yesterday" }
+      ]
+    };
+
+    const merchantScreens = [
+      ["overview", "Overview", "◈"],
+      ["businesses", "Businesses", "▣"],
+      ["branches", "Branches", "⌂"],
+      ["payments", "Payment Requests", "▤"],
+      ["create-payment", "Create Payment", "+"],
+      ["payment-detail", "Payment Detail", "QR"],
+      ["transactions", "Transactions", "↔"],
+      ["customers", "Customers", "☻"],
+      ["security", "Security", "⌾"],
+      ["settings", "Settings", "⚙"]
+    ];
+
+    const customerScreens = [
+      ["customer-qr", "1. QR Scan", "▦"],
+      ["customer-checkout", "2. Checkout", "◎"],
+      ["customer-wallet", "3. Wallet Selection", "◐"],
+      ["customer-review", "4. Review Payment", "✓"],
+      ["customer-success", "5. Success", "✓"]
+    ];
+
+    function badge(status) {
+      const s = status.toLowerCase();
+      const cls = s.includes("paid") || s.includes("confirmed") ? "badge-paid" : s.includes("pending") ? "badge-pending" : "badge-failed";
+      return `<span class="badge ${cls}">${status}</span>`;
+    }
+
+    function pageTop(title, subtitle, actions = "") {
+      return `
+        <div class="topbar">
+          <div class="page-title">
+            <h2>${title}</h2>
+            <p>${subtitle}</p>
+          </div>
+          <div class="top-actions">
+            <span class="pill"><span class="dot"></span>${mock.merchant.network}</span>
+            <span class="pill">🔐 ${mock.merchant.wallet}</span>
+            ${actions}
+          </div>
+        </div>
+      `;
+    }
+
+    function qr() {
+      const on = new Set([0,1,2,3,9,10,11,12,13,14,15,16,22,25,26,28,30,31,33,35,36,38,39,42,43,46,48,50,51,52,54,56,58,59,61,62,65,66,68,70,72,74,76,78,79,82,85,86,87,90,91,92,94,96,98,100,101,103,105,108,110,111,112,114,116,119,120,122,124,126,127,128,130,132,133,134,137,140,142,144,145,147,148,150,153,154,155,156,164,165,166,167,168]);
+      let cells = "";
+      for (let i = 0; i < 169; i++) {
+        cells += `<div class="qr-cell ${on.has(i) ? "on" : ""}"></div>`;
+      }
+      return `<div class="qr-box"><div class="qr-grid">${cells}</div><div class="qr-logo">R</div></div>`;
+    }
+
+    function table(headers, rows) {
+      return `<div class="table-wrap"><table><thead><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>`;
+    }
+
+    function renderOverview() {
+      document.getElementById("overview").innerHTML = `
+        ${pageTop("Overview", "Welcome back, Ege. Here's what's happening.", `<button class="btn btn-primary" onclick="showScreen('create-payment')">Create Payment</button>`)}
+        <div class="grid stats-grid">
+          <div class="card stat"><div class="label">Total Received</div><div class="value">1,240.25 <span style="font-size:14px">XLM</span></div><div class="sub">≈ $184.34 USD</div><div class="spark"></div></div>
+          <div class="card stat"><div class="label">Successful Payments</div><div class="value">32</div><div class="sub" style="color:#8ef0ad">+12 this week</div><div class="spark"></div></div>
+          <div class="card stat"><div class="label">Pending Payments</div><div class="value">5</div><div class="sub">≈ 85.00 XLM</div><div class="spark"></div></div>
+          <div class="card stat"><div class="label">Failed Payments</div><div class="value">2</div><div class="sub">≈ 12.00 XLM</div><div class="spark"></div></div>
+        </div>
+        <div style="height:16px"></div>
+        <div class="grid two-col">
+          <div class="card">
+            <div class="card-header"><h3>Recent Payment Requests</h3><button class="btn" onclick="showScreen('payments')">View all</button></div>
+            ${table(["Payment", "Amount", "Status", "Created"], mock.payments.map(p => `<tr><td><strong>${p.id}</strong></td><td>${p.amount} ${p.asset}</td><td>${badge(p.status)}</td><td>${p.created}</td></tr>`).join(""))}
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Recent Transactions</h3><button class="btn" onclick="showScreen('transactions')">View all</button></div>
+            ${table(["TXN", "Amount", "Status", "Time"], mock.transactions.map(t => `<tr><td><strong>${t.hash}</strong></td><td>${t.amount}</td><td>${badge(t.status)}</td><td>${t.time}</td></tr>`).join(""))}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBusinesses() {
+      document.getElementById("businesses").innerHTML = `
+        ${pageTop("Businesses", "Manage multiple businesses under your Rosa Pay account.", `<button class="btn btn-primary">New Business</button>`)}
+        <div class="grid three-col">
+          ${mock.businesses.map(b => `
+            <div class="card">
+              <div class="card-header">
+                <div><h3>${b.name}</h3><p style="margin:6px 0 0">${b.slug}</p></div>
+                ${badge(b.status)}
+              </div>
+              <div class="detail-list">
+                <div class="detail-row"><span>Branches</span><strong>${b.branches}</strong></div>
+                <div class="detail-row"><span>Total Received</span><strong>${b.received}</strong></div>
+                <div class="detail-row"><span>Owner</span><strong>${mock.merchant.wallet}</strong></div>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-primary">Open</button><button class="btn">Edit</button></div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderBranches() {
+      document.getElementById("branches").innerHTML = `
+        ${pageTop("Branches", "Create and manage payment locations for each business.", `<button class="btn btn-primary">New Branch</button>`)}
+        <div class="card">
+          ${table(["Branch", "Business", "Wallet", "Payments", "Status"], mock.branches.map(b => `<tr><td><strong>${b.name}</strong></td><td>${b.business}</td><td>${b.wallet}</td><td>${b.payments}</td><td>${badge(b.status)}</td></tr>`).join(""))}
+        </div>
+      `;
+    }
+
+    function renderPayments() {
+      document.getElementById("payments").innerHTML = `
+        ${pageTop("Payment Requests", "Track QR payment requests and statuses.", `<button class="btn btn-primary" onclick="showScreen('create-payment')">Create Payment</button>`)}
+        <div class="card">
+          ${table(["Payment ID", "Business", "Branch", "Amount", "Memo", "Status", "Created"], mock.payments.map(p => `<tr onclick="showScreen('payment-detail')" style="cursor:pointer"><td><strong>${p.id}</strong></td><td>${p.business}</td><td>${p.branch}</td><td>${p.amount} ${p.asset}</td><td>${p.memo}</td><td>${badge(p.status)}</td><td>${p.created}</td></tr>`).join(""))}
+        </div>
+      `;
+    }
+
+    function renderCreatePayment() {
+      document.getElementById("create-payment").innerHTML = `
+        ${pageTop("Create Payment Request", "Generate a secure QR payment request for your customer.")}
+        <div class="grid two-col">
+          <div class="card">
+            <form class="form" onsubmit="event.preventDefault(); showScreen('payment-detail')">
+              <div class="field"><label>Business</label><select><option>Rosa Cafe</option><option>Golden Studio</option></select></div>
+              <div class="field"><label>Branch</label><select><option>Alsancak Branch</option><option>Bostanlı Branch</option><option>Online Checkout</option></select></div>
+              <div class="field"><label>Amount</label><input value="10.00" /></div>
+              <div class="field"><label>Asset</label><select><option>XLM - Stellar Lumens</option><option disabled>USDC - Coming soon</option></select></div>
+              <div class="field"><label>Description</label><textarea rows="3">Coffee payment</textarea></div>
+              <div class="field"><label>Expires In</label><select><option>30 minutes</option><option>1 hour</option><option>24 hours</option></select></div>
+              <button class="btn btn-primary" type="submit">Generate QR Code</button>
+            </form>
+          </div>
+          <div class="card">
+            <h3>Payment Security Rules</h3>
+            <div class="detail-list">
+              <div class="detail-row"><span>Private key storage</span><strong>Never</strong></div>
+              <div class="detail-row"><span>Payment ID</span><strong>Unique</strong></div>
+              <div class="detail-row"><span>Memo</span><strong>Required</strong></div>
+              <div class="detail-row"><span>Verification</span><strong>On-chain</strong></div>
+              <div class="detail-row"><span>Network</span><strong>Testnet</strong></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPaymentDetail() {
+      document.getElementById("payment-detail").innerHTML = `
+        ${pageTop("Payment Request", "Payment request detail and QR code.", `<button class="btn" onclick="showScreen('customer-checkout')">Preview Checkout</button>`)}
+        <div class="grid two-col">
+          <div class="card">
+            <div class="card-header"><div><h3>pay_7f9s2k</h3><p>Created Oct 29, 2025 • 10:35 AM</p></div>${badge("PENDING")}</div>
+            ${qr()}
+            <div class="detail-list">
+              <div class="detail-row"><span>Amount</span><strong>10.00 XLM</strong></div>
+              <div class="detail-row"><span>Asset</span><strong>XLM - Stellar Lumens</strong></div>
+              <div class="detail-row"><span>Destination</span><strong>GABC...XY123</strong></div>
+              <div class="detail-row"><span>Memo</span><strong>pay_7f9s2k</strong></div>
+              <div class="detail-row"><span>Expires At</span><strong>29:59</strong></div>
+              <div class="detail-row"><span>Status</span><strong>${badge("PENDING")}</strong></div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:18px"><button class="btn btn-primary">Copy Payment Link</button><button class="btn">Share QR</button></div>
+          </div>
+          <div class="card">
+            <h3>Payment Link</h3>
+            <p>QR içindeki link mock olarak aşağıdaki checkout sayfasına gider.</p>
+            <input readonly value="https://rosapay.app/checkout/pay_7f9s2k" />
+            <div style="height:18px"></div>
+            <h3>QR Payload Preview</h3>
+            <pre style="white-space:pre-wrap;background:rgba(0,0,0,.28);padding:14px;border-radius:14px;color:#d8d8d8;font-size:12px">{
+  "type": "rosa_payment_request",
+  "network": "stellar_testnet",
+  "paymentRequestId": "pay_7f9s2k",
+  "destination": "GABC...XY123",
+  "amount": "10.00",
+  "asset": "XLM",
+  "memo": "pay_7f9s2k"
+}</pre>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTransactions() {
+      document.getElementById("transactions").innerHTML = `
+        ${pageTop("Transactions", "Verified and failed Stellar transaction records.")}
+        <div class="card">
+          ${table(["Hash", "Payment", "Customer", "Amount", "Status", "Time"], mock.transactions.map(t => `<tr><td><strong>${t.hash}</strong></td><td>${t.payment}</td><td>${t.customer}</td><td>${t.amount}</td><td>${badge(t.status)}</td><td>${t.time}</td></tr>`).join(""))}
+        </div>
+      `;
+    }
+
+    function renderCustomers() {
+      document.getElementById("customers").innerHTML = `
+        ${pageTop("Customers", "Customers are tracked by wallet address, no account required.")}
+        <div class="card">
+          ${table(["Wallet", "Payments", "Volume", "First Seen"], mock.customers.map(c => `<tr><td><strong>${c.wallet}</strong></td><td>${c.payments}</td><td>${c.volume}</td><td>${c.firstSeen}</td></tr>`).join(""))}
+        </div>
+      `;
+    }
+
+    function renderSecurity() {
+      document.getElementById("security").innerHTML = `
+        ${pageTop("Security Model", "Non-custodial payment infrastructure for Stellar.")}
+        <div class="grid three-col">
+          <div class="card"><h3>Non-Custodial</h3><p>Rosa Pay never stores private keys, secret keys, seed phrases or user funds. Users sign payments with their own wallet.</p></div>
+          <div class="card"><h3>Verified On-Chain</h3><p>Payments are marked as paid only after checking transaction hash, memo, destination, amount, asset and network.</p></div>
+          <div class="card"><h3>QR Protection</h3><p>Each QR has a unique payment request ID, memo and expiry time. Expired or duplicate transactions are rejected.</p></div>
+        </div>
+        <div style="height:16px"></div>
+        <div class="card">
+          <h3>Audit Events</h3>
+          ${table(["Event", "Entity", "Time"], [
+            ["Wallet connected", "Merchant", "Now"],
+            ["Payment request created", "pay_7f9s2k", "2m ago"],
+            ["QR generated", "pay_7f9s2k", "2m ago"],
+            ["Duplicate transaction rejected", "txn_32af", "2h ago"]
+          ].map(r => `<tr><td>${r[0]}</td><td><strong>${r[1]}</strong></td><td>${r[2]}</td></tr>`).join(""))}
+        </div>
+      `;
+    }
+
+    function renderSettings() {
+      document.getElementById("settings").innerHTML = `
+        ${pageTop("Settings", "Manage merchant preferences and checkout configuration.")}
+        <div class="grid two-col">
+          <div class="card">
+            <h3>Merchant Profile</h3>
+            <div class="form" style="margin-top:14px">
+              <div class="field"><label>Display Name</label><input value="Ege" /></div>
+              <div class="field"><label>Email</label><input value="ege@example.com" /></div>
+              <div class="field"><label>Default Network</label><select><option>Stellar Testnet</option><option disabled>Stellar Mainnet - Coming soon</option></select></div>
+              <button class="btn btn-primary">Save Settings</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Checkout Options</h3>
+            <div class="detail-list">
+              <div class="detail-row"><span>Customer account required</span><strong>No</strong></div>
+              <div class="detail-row"><span>Default expiry</span><strong>30 minutes</strong></div>
+              <div class="detail-row"><span>Supported asset</span><strong>XLM</strong></div>
+              <div class="detail-row"><span>Wallet strategy</span><strong>Freighter + Wallet Kit</strong></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function phoneShell(inner) {
+      return `<div class="phone-area"><div class="phone"><div class="phone-screen">${inner}</div></div></div>`;
+    }
+
+    function mobileHeader(title) {
+      return `<div class="mobile-header"><span>9:41</span><strong>${title}</strong><span>5G ▰</span></div>`;
+    }
+
+    function renderCustomerQR() {
+      document.getElementById("customer-qr").innerHTML = phoneShell(`
+        ${mobileHeader("Camera")}
+        <div style="height:70px"></div>
+        <div class="card" style="text-align:center;background:rgba(255,255,255,.9);color:#111">
+          <div class="brand-mark" style="margin:0 auto 10px">R</div>
+          <strong>Rosa Pay</strong>
+          <p style="color:#333;margin:6px 0 12px">Scan to Pay</p>
+          ${qr()}
+        </div>
+        <div class="mobile-actions">
+          <button class="btn btn-primary" onclick="showScreen('customer-checkout')">Simulate QR Scan</button>
+        </div>
+      `);
+    }
+
+    function renderCustomerCheckout() {
+      document.getElementById("customer-checkout").innerHTML = phoneShell(`
+        ${mobileHeader("Checkout")}
+        <div class="checkout-brand"><div class="brand-mark">R</div><div><h2>Rosa Pay</h2><div style="font-size:12px;color:var(--muted)">Secure Checkout</div></div></div>
+        <div class="card">
+          <div class="card-header"><div><h3>Rosa Cafe</h3><p>Alsancak Branch</p></div>${badge("TESTNET")}</div>
+          <div class="amount-card">
+            <div style="color:var(--muted);font-size:13px">You are paying</div>
+            <div class="big-amount">10.00 <span style="font-size:18px">XLM</span></div>
+            <div style="color:var(--muted);margin-top:8px">≈ $1.48 USD</div>
+          </div>
+          <div class="detail-list">
+            <div class="detail-row"><span>Asset</span><strong>XLM - Stellar Lumens</strong></div>
+            <div class="detail-row"><span>Network</span><strong>Stellar Testnet</strong></div>
+            <div class="detail-row"><span>Memo</span><strong>pay_7f9s2k</strong></div>
+            <div class="detail-row"><span>Expires In</span><strong>29:59</strong></div>
+          </div>
+          <div class="mobile-actions">
+            <button class="btn btn-primary" onclick="showScreen('customer-wallet')">Connect Wallet</button>
+          </div>
+        </div>
+        <p style="text-align:center;color:var(--muted);font-size:12px">Secured by non-custodial payment flow.</p>
+      `);
+    }
+
+    function renderCustomerWallet() {
+      document.getElementById("customer-wallet").innerHTML = phoneShell(`
+        ${mobileHeader("Wallet")}
+        <button class="btn" onclick="showScreen('customer-checkout')">← Back</button>
+        <h2 style="margin:18px 0 4px">Connect Wallet</h2>
+        <p style="color:var(--muted);margin-top:0">Choose your preferred Stellar wallet.</p>
+        <div style="height:10px"></div>
+        ${["Freighter|Browser Extension", "WalletConnect|Mobile Wallets • Recommended", "Lobstr|Mobile Wallet", "Albedo|Web Wallet"].map((w, i) => {
+          const [name, sub] = w.split("|");
+          return `<div class="wallet-option" onclick="showScreen('customer-review')"><div class="wallet-left"><div class="wallet-icon">${name[0]}</div><div><strong>${name}</strong><div style="font-size:12px;color:var(--muted)">${sub}</div></div></div><span>›</span></div>`
+        }).join("")}
+        <div class="mobile-actions">
+          <button class="btn">I don't have a wallet</button>
+        </div>
+      `);
+    }
+
+    function renderCustomerReview() {
+      document.getElementById("customer-review").innerHTML = phoneShell(`
+        ${mobileHeader("Review")}
+        <button class="btn" onclick="showScreen('customer-wallet')">← Back</button>
+        <h2 style="margin:18px 0 4px">Review Payment</h2>
+        <p style="color:var(--muted);margin-top:0">Please review details before approving.</p>
+        <div class="card">
+          <div class="detail-list">
+            <div class="detail-row"><span>Merchant</span><strong>Rosa Cafe</strong></div>
+            <div class="detail-row"><span>Amount</span><strong>10.00 XLM</strong></div>
+            <div class="detail-row"><span>Asset</span><strong>XLM</strong></div>
+            <div class="detail-row"><span>Network</span><strong>Stellar Testnet</strong></div>
+            <div class="detail-row"><span>Memo</span><strong>pay_7f9s2k</strong></div>
+            <div class="detail-row"><span>Network Fee</span><strong>0.00001 XLM</strong></div>
+            <div class="detail-row"><span>Total</span><strong style="color:var(--gold-2)">10.00001 XLM</strong></div>
+          </div>
+          <div class="mobile-actions">
+            <button class="btn btn-primary" onclick="showScreen('customer-success')">Pay with Freighter</button>
+            <button class="btn" onclick="showScreen('customer-wallet')">Try another wallet</button>
+          </div>
+        </div>
+        <p style="color:var(--muted);font-size:12px;text-align:center">You will be redirected to your wallet to approve this transaction.</p>
+      `);
+    }
+
+    function renderCustomerSuccess() {
+      document.getElementById("customer-success").innerHTML = phoneShell(`
+        ${mobileHeader("Success")}
+        <div class="success-check">✓</div>
+        <h2 style="text-align:center">Payment Successful!</h2>
+        <p style="text-align:center;color:var(--muted)">Your payment has been sent and verified.</p>
+        <div class="card">
+          <div class="big-amount" style="text-align:center;font-size:34px">10.00 <span style="font-size:17px">XLM</span></div>
+          <div class="detail-list">
+            <div class="detail-row"><span>Transaction Hash</span><strong>0f9a...f3a</strong></div>
+            <div class="detail-row"><span>Status</span><strong>${badge("CONFIRMED")}</strong></div>
+            <div class="detail-row"><span>Network</span><strong>Stellar Testnet</strong></div>
+          </div>
+          <div class="mobile-actions">
+            <button class="btn btn-primary">View on Stellar Expert</button>
+            <button class="btn" onclick="showScreen('overview')">Back to Merchant Demo</button>
+          </div>
+        </div>
+      `);
+    }
+
+    function renderAll() {
+      renderOverview();
+      renderBusinesses();
+      renderBranches();
+      renderPayments();
+      renderCreatePayment();
+      renderPaymentDetail();
+      renderTransactions();
+      renderCustomers();
+      renderSecurity();
+      renderSettings();
+      renderCustomerQR();
+      renderCustomerCheckout();
+      renderCustomerWallet();
+      renderCustomerReview();
+      renderCustomerSuccess();
+    }
+
+    function createNav() {
+      const merchantNav = document.getElementById("merchantNav");
+      const customerNav = document.getElementById("customerNav");
+      merchantNav.innerHTML = merchantScreens.map(([id, label, icon]) => `<button data-screen="${id}" class="${id === "overview" ? "active" : ""}" onclick="showScreen('${id}')"><span>${icon}</span>${label}</button>`).join("");
+      customerNav.innerHTML = customerScreens.map(([id, label, icon]) => `<button data-screen="${id}" onclick="showScreen('${id}')"><span>${icon}</span>${label}</button>`).join("");
+
+      const select = document.getElementById("mobileScreenSelect");
+      const all = [...merchantScreens, ...customerScreens];
+      select.innerHTML = all.map(([id, label]) => `<option value="${id}">${label}</option>`).join("");
+      select.addEventListener("change", e => showScreen(e.target.value));
+    }
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      document.querySelectorAll(".nav button").forEach(b => b.classList.toggle("active", b.dataset.screen === id));
+      const select = document.getElementById("mobileScreenSelect");
+      if (select) select.value = id;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    renderAll();
+    createNav();
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "rosapay",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node backend/src/server.mjs",
+    "backend:dev": "node backend/src/server.mjs",
+    "frontend:dev": "node backend/src/server.mjs",
+    "start": "node backend/src/server.mjs",
+    "check": "node --check backend/src/server.mjs && node --check backend/src/routes/apiRouter.mjs && node --check backend/src/repositories/sqliteStore.mjs && node --check backend/src/services/auditService.mjs && node --check backend/src/services/paymentService.mjs && node --check backend/src/services/testnetService.mjs && node --check frontend/src/app.js && node --check packages/domain/src/mockData.js && node --check packages/stellar/src/stellarGateway.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@stellar/stellar-sdk": "^15.0.0"
+  }
+}
